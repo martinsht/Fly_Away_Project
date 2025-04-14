@@ -4,6 +4,8 @@ import java.io.*;
 import java.sql.Connection;
 import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class connect {
@@ -21,7 +23,7 @@ public class connect {
                 if (rs.next()) {
                     String hashedPassword = rs.getString("password");
                     if (BCrypt.checkpw(password, hashedPassword)) {
-                        user = new User(rs.getString("username"), rs.getString("name"));
+                        user = new User(rs.getString("username"), rs.getString("name"),rs.getInt("customer_id"));
                     }
                 }
             }
@@ -74,6 +76,41 @@ public class connect {
                 rollbackEx.printStackTrace();
             }
         }
+        return false;
+    }
+    public static ArrayList<String> destinations() {
+        ArrayList<String> dest_list = new ArrayList<String>();
+        String query = "Select arrival from management.flight";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement pstmt = connection.prepareStatement(query);
+        ) {
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    dest_list.add(rs.getString("arrival"));
+                }
+            }
+            return dest_list;
+        } catch (SQLException e) {
+            System.out.println("SQL Error: " + e.getMessage());
+        }
+        return dest_list;
+    }
+    public static boolean book (String destination, String passpord_id, int num){
+        String query = "Select flight_id from management.flight where arrival = "+destination;
+        String flight_id;
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement pstmt = connection.prepareStatement(query);
+        ) {
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    flight_id = rs.getString("flight_id");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL Error: " + e.getMessage());
+        }
+        query = "INSERT INTO management.ticket (customer_id, flight_id, destination, passport_id, num_lug) VALUES (?, ?, ?, ? ,?)";
+
         return false;
     }
 }

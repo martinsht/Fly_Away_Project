@@ -16,7 +16,7 @@ public class Ticket_info extends JFrame{
         bookButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                new booking();
             }
         });
     }

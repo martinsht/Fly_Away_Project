@@ -20,11 +20,11 @@ public class login extends JFrame{
                 User user = null;
 
                 if (comboBox1.getSelectedIndex() == 0) {
-                    String query = "SELECT username, name, password FROM management.customer WHERE username = ?";
+                    String query = "SELECT * FROM management.customer WHERE username = ?";
                     user = connect.login(textField1.getText(), passwordField1.getText(), query);
                 }
                 if (comboBox1.getSelectedIndex() == 1) {
-                    String query = "SELECT username, name, password FROM management.pilot WHERE username = ?";
+                    String query = "SELECT * FROM management.pilot WHERE username = ?";
                     user = connect.login(textField1.getText(), passwordField1.getText(), query);
                 }
                     if (user != null) {
