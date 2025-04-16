@@ -10,7 +10,7 @@ public class booking extends JFrame {
     private JTextField textField1;
     private JComboBox comboBox1;
 
-    public booking() {
+    public booking(User user) {
         setSize(500,500);
         setContentPane(panel);
         setVisible(true);
@@ -23,6 +23,16 @@ public class booking extends JFrame {
         bookButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(!textField1.getText().isEmpty()){
+                    if (connect.book((String) comboBox1.getSelectedItem(),textField1.getText(),(int) spinner1.getValue(),user.getId(), user.getName())) // check if there is a success message on the console.
+                    {
+                        new Ticket_info(user);
+                        setVisible(false); // hide register page
+                    }
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Fill all the fields!");
+                }
 
 
             }
