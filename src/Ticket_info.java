@@ -9,6 +9,7 @@ public class Ticket_info extends JFrame{
     private JButton bookButton;
     private JPanel panel;
     private JLabel welcome;
+    private JButton logOutButton;
     public static DefaultTableModel model;
     private ArrayList<String[]> tickets;
 
@@ -32,6 +33,13 @@ public class Ticket_info extends JFrame{
             public void actionPerformed(ActionEvent e) {
 
                 new booking(user);
+                setVisible(false);
+            }
+        });
+        logOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Welcome();
                 setVisible(false);
             }
         });
