@@ -18,20 +18,28 @@ public class Ticket_info extends JFrame{
         setVisible(true);
         model = new DefaultTableModel();
         schedule.setModel(model); // Attach model to table
-        updateTable(user);
+        if (user.getType().equals("customer")){
+        updateTable(user, "SELECT * FROM management.ticket where customer_id = "+user.getId());
+        }
+        if (user.getType().equals("pilot")){
+            updateTable(user, "SELECT * FROM management.flight where pilot_id = "+user.getId());
+        }
+
         welcome.setText("Welcome " + user.getName());
+        bookButton.setEnabled(user.getType().equals("customer"));
         bookButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 new booking(user);
                 setVisible(false);
             }
         });
     }
-    private void updateTable (User user) {
+    private void updateTable (User user, String query) {
         model.setRowCount(0);
         model.setColumnCount(0);
-        tickets = connect.executeQuery("SELECT * FROM management.ticket where customer_id = "+user.getId());
+        tickets = connect.executeQuery(query);
         for (String[] flight : tickets) {
             model.addRow(flight); // Add each client's data as a new row
         }

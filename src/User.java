@@ -2,6 +2,7 @@ public class User {
     private int id;
     private String username;
     private String name;
+    private String type;
 
     public User(String username, String name, int id) {
         this.username = username;
@@ -18,5 +19,13 @@ public class User {
 
     public int getId() {
         return id;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
     }
 }

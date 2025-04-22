@@ -13,7 +13,7 @@ public class connect {
     private static final String USER = "root";
     private static final String PASSWORD = "1234";
 
-    public static User login(String username, String password, String query) {
+    public static User login(String username, String password, String query, String id) {
         User user = null;
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement pstmt = connection.prepareStatement(query);
@@ -22,8 +22,14 @@ public class connect {
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     String hashedPassword = rs.getString("password");
-                    if (BCrypt.checkpw(password, hashedPassword)) {
-                        user = new User(rs.getString("username"), rs.getString("name"),rs.getInt("customer_id"));
+                    if (hashedPassword.startsWith("$2a$")) {
+                        if (BCrypt.checkpw(password, hashedPassword)) {
+                            user = new User(rs.getString("username"), rs.getString("name"), rs.getInt(id));
+                        }
+                    }else if (password.equals(hashedPassword)) {
+                        // You might want to upgrade this password to BCrypt here
+                        user = new User(rs.getString("username"), rs.getString("name"), rs.getInt(id));
+
                     }
                 }
             }
