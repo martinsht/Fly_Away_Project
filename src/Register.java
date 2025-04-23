@@ -11,6 +11,7 @@ public class Register extends JFrame {
     private JButton signUpButton;
     private JPanel panel;
     private JComboBox comboBox1;
+    private JButton logInButton;
 
     public Register() {
         setSize(500, 500);
@@ -52,6 +53,13 @@ public class Register extends JFrame {
                     // Show a message prompting the user to fill in all the fields
                     JOptionPane.showMessageDialog(null, "Fill all the fields!");
                 }
+            }
+        });
+        logInButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new login();
+                setVisible(false);
             }
         });
     }

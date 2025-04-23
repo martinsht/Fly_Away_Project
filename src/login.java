@@ -22,12 +22,14 @@ public class login extends JFrame{
                 if (comboBox1.getSelectedIndex() == 0) {
                     String query = "SELECT * FROM management.customer WHERE username = ?";
                     user = connect.login(textField1.getText(), passwordField1.getText(), query, "customer_id");
-                    user.setType("customer");
+                    if (!(user ==null)){
+                        user.setType("customer");}
                 }
                 if (comboBox1.getSelectedIndex() == 1) {
                     String query = "SELECT * FROM management.pilot WHERE username = ?";
                     user = connect.login(textField1.getText(), passwordField1.getText(), query, "pilot_id");
-                    user.setType("pilot");
+                    if (!(user ==null)){
+                    user.setType("pilot");}
                 }
                     if (user != null) {
                         JOptionPane.showMessageDialog(null, "Successfully logged in as " + user.getName(), "Login Success", JOptionPane.INFORMATION_MESSAGE);

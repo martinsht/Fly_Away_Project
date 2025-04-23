@@ -2,6 +2,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Ticket_info extends JFrame{
@@ -10,6 +12,7 @@ public class Ticket_info extends JFrame{
     private JPanel panel;
     private JLabel welcome;
     private JButton logOutButton;
+    private JTextField searchtext;
     public static DefaultTableModel model;
     private ArrayList<String[]> tickets;
 
@@ -20,10 +23,10 @@ public class Ticket_info extends JFrame{
         model = new DefaultTableModel();
         schedule.setModel(model); // Attach model to table
         if (user.getType().equals("customer")){
-        updateTable(user, "SELECT * FROM management.ticket where customer_id = "+user.getId());
+        updateTable("SELECT * FROM management.ticket where customer_id = "+user.getId());
         }
         if (user.getType().equals("pilot")){
-            updateTable(user, "SELECT * FROM management.flight where pilot_id = "+user.getId());
+            updateTable("SELECT * FROM management.flight where pilot_id = "+user.getId());
         }
 
         welcome.setText("Welcome " + user.getName());
@@ -39,12 +42,24 @@ public class Ticket_info extends JFrame{
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Successfully logged out ", "Log Out Success", JOptionPane.INFORMATION_MESSAGE);
                 new Welcome();
                 setVisible(false);
             }
         });
+        searchtext.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                if (user.getType().equals("customer")) {
+                    updateTable("Select * from management.ticket where destination like '%"+searchtext.getText()+"%' and customer_id = "+user.getId()+";");
+                }else if(user.getType().equals("pilot")){
+                    updateTable("Select * from management.flight where arrival like '%"+searchtext.getText()+"%'and pilot_id = "+user.getId()+";");
+                }
+            }
+        });
     }
-    private void updateTable (User user, String query) {
+    private void updateTable (String query) {
         model.setRowCount(0);
         model.setColumnCount(0);
         tickets = connect.executeQuery(query);
