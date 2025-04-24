@@ -1,13 +1,21 @@
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class User {
     private int id;
     private String username;
     private String name;
     private String type;
+    private InputStream img;
 
-    public User(String username, String name, int id) {
+    public User(String username, String name, int id, InputStream img) {
         this.username = username;
         this.name = name;
         this.id = id;
+        this.img = img;
     }
 
     public String getName() {
@@ -27,5 +35,16 @@ public class User {
 
     public String getType() {
         return type;
+    }
+    public ImageIcon getImageIcon() {
+        try {
+            // Convert InputStream to BufferedImage
+            BufferedImage image = ImageIO.read(img);
+            // Return ImageIcon from the BufferedImage
+            return new ImageIcon(image);
+        } catch (IOException e) {
+            System.out.println("Error loading image: " + e.getMessage());
+            return null;
+        }
     }
 }

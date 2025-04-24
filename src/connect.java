@@ -22,13 +22,15 @@ public class connect {
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     String hashedPassword = rs.getString("password");
+                    InputStream imgStream = rs.getBinaryStream("img");
+
                     if (hashedPassword.startsWith("$2a$")) {
                         if (BCrypt.checkpw(password, hashedPassword)) {
-                            user = new User(rs.getString("username"), rs.getString("name"), rs.getInt(id));
+                            user = new User(rs.getString("username"), rs.getString("name"), rs.getInt(id), imgStream);
                         }
                     }else if (password.equals(hashedPassword)) {
                         // You might want to upgrade this password to BCrypt here
-                        user = new User(rs.getString("username"), rs.getString("name"), rs.getInt(id));
+                        user = new User(rs.getString("username"), rs.getString("name"), rs.getInt(id), imgStream);
 
                     }
                 }
@@ -39,7 +41,7 @@ public class connect {
         }
         return user;
     }
-    public static boolean add (String name, String username, String password, String query){
+    public static boolean add (String name, String username, String password, InputStream img, String query){
         Connection connection = null;
         PreparedStatement pstmt = null;
         try {
@@ -56,6 +58,8 @@ public class connect {
             pstmt.setString(1, name);  // Set first name
             pstmt.setString(2, username);   // Set last name
             pstmt.setString(3, password); // Set the hashed password
+            pstmt.setBinaryStream(4, img);  // Set the image as a binary stream
+
 
             // Execute the query and get the number of rows affected
             int rowsAffected = pstmt.executeUpdate();
