@@ -13,6 +13,8 @@ public class Ticket_info extends JFrame{
     private JLabel welcome;
     private JButton logOutButton;
     private JTextField searchtext;
+    private JLabel imagelabel;
+    private JLabel logo;
     public static DefaultTableModel model;
     private ArrayList<String[]> tickets;
 
@@ -22,14 +24,19 @@ public class Ticket_info extends JFrame{
         setVisible(true);
         model = new DefaultTableModel();
         schedule.setModel(model); // Attach model to table
+        welcome.setText("Welcome " + user.getName());
+        ImageIcon icon = user.getImageIcon();
+        if(icon != null) {
+        imagelabel.setText("");
+        imagelabel.setIcon(icon);
+        }
+
         if (user.getType().equals("customer")){
         updateTable("SELECT * FROM management.ticket where customer_id = "+user.getId());
         }
         if (user.getType().equals("pilot")){
             updateTable("SELECT * FROM management.flight where pilot_id = "+user.getId());
         }
-
-        welcome.setText("Welcome " + user.getName());
         bookButton.setEnabled(user.getType().equals("customer"));
         bookButton.addActionListener(new ActionListener() {
             @Override

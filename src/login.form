@@ -64,7 +64,7 @@
             <children>
               <component id="83e30" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <foreground color="-8493824"/>
@@ -132,6 +132,7 @@
             </constraints>
             <properties>
               <background color="-5520514"/>
+              <editable value="false"/>
               <foreground color="-8493824"/>
               <model>
                 <item value="Passenger"/>
@@ -156,7 +157,7 @@
         </constraints>
         <properties>
           <background color="-6965123"/>
-          <enabled value="false"/>
+          <enabled value="true"/>
           <foreground color="-8493824"/>
           <text value="Log in"/>
         </properties>
@@ -176,7 +177,7 @@
         </constraints>
         <properties>
           <background color="-6965123"/>
-          <enabled value="false"/>
+          <enabled value="true"/>
           <foreground color="-8493824"/>
           <text value="Click here"/>
         </properties>

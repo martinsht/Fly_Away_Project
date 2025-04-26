@@ -37,14 +37,16 @@ public class User {
         return type;
     }
     public ImageIcon getImageIcon() {
-        try {
-            // Convert InputStream to BufferedImage
-            BufferedImage image = ImageIO.read(img);
-            // Return ImageIcon from the BufferedImage
-            return new ImageIcon(image);
-        } catch (IOException e) {
-            System.out.println("Error loading image: " + e.getMessage());
-            return null;
+        if(img != null) {
+            try {
+                // Convert InputStream to BufferedImage
+                BufferedImage image = ImageIO.read(img);
+                // Return ImageIcon from the BufferedImage
+                return new ImageIcon(image);
+            } catch (IOException e) {
+                System.out.println("Error loading image: " + e.getMessage());
+            }
         }
+        return null;
     }
 }
