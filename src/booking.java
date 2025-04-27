@@ -27,7 +27,7 @@ public class booking extends JFrame {
                     if (connect.book((String) comboBox1.getSelectedItem(),textField1.getText(),(int) spinner1.getValue(),user.getId(), user.getName())) // check if there is a success message on the console.
                     {
                         new Ticket_info(user);
-                        setVisible(false); // hide register page
+                        setVisible(false); // hide booking page
                     }
                 }
                 else{

@@ -9,14 +9,20 @@ public class User {
     private String username;
     private String name;
     private String type;
-    private InputStream img;
+    private BufferedImage img;
 
-    public User(String username, String name, int id, InputStream img) {
+    public User(String username, String name, int id, InputStream image) {
         this.username = username;
         this.name = name;
         this.id = id;
-        this.img = img;
-    }
+        if (image != null) {
+            try {
+                this.img = ImageIO.read(image); // Load once!
+            } catch (IOException e) {
+                System.out.println("Error loading image: " + e.getMessage());
+                this.img = null;
+            }
+        }    }
 
     public String getName() {
         return name;
@@ -38,14 +44,7 @@ public class User {
     }
     public ImageIcon getImageIcon() {
         if(img != null) {
-            try {
-                // Convert InputStream to BufferedImage
-                BufferedImage image = ImageIO.read(img);
-                // Return ImageIcon from the BufferedImage
-                return new ImageIcon(image);
-            } catch (IOException e) {
-                System.out.println("Error loading image: " + e.getMessage());
-            }
+            return new ImageIcon(img);
         }
         return null;
     }
